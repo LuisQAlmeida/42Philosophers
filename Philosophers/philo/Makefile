@@ -6,7 +6,7 @@ CFLAGS = -Wall -Wextra -Werror -pthread -g
 
 NAME = philo
 
-SRC = src/philo.c src/utils.c
+SRC = src/philo.c src/utils.c src/parse.c
 
 OBJ = $(SRC:.c=.o)
 	

@@ -10,5 +10,6 @@
 			p_thread_mutex_destroy, pthread_mutex_lock, pthread_mutex_unlock*/
 
 int	ft_isdigit(int c);
+int	parse_args(int ac, char **av);
 
 #endif

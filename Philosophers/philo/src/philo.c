@@ -2,12 +2,12 @@
 
 int	main(int argc, char **argv)
 {
-	(void)argv;
-	if (argc != 5 && argc != 6)
+	if (!parse_args(argc, argv))
 	{
-		printf("You should insert either 4 or 5 arguments. No more, no less...\n");
+		printf("Invalid arguments.\n");
+		printf("Usage: ./philo n_philo t_die t_eat t_sleep [must_eat]\n");
 		return (1);
 	}
-	printf("You've inserted the right amount of arguments!\n");
+	printf("Valid arguments inserted: digits only!\n");
 	return (0);
 }
