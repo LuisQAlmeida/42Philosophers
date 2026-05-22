@@ -1,1 +1,1 @@
-#include "philo_bonus.c"
+#include "philo_bonus.h"
