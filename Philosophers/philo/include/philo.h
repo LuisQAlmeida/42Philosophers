@@ -9,7 +9,8 @@
 # include <pthread.h> /*p_thread_create, pthread_detach, pthread_join, pthread_mutex_init,
 			p_thread_mutex_destroy, pthread_mutex_lock, pthread_mutex_unlock*/
 
-int	ft_isdigit(int c);
-int	parse_args(int ac, char **av);
+int		ft_isdigit(int c);
+long	ft_atol_positive(const char *s, int *ok);
+int		parse_args(int ac, char **av);
 
 #endif
