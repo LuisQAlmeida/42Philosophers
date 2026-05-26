@@ -21,7 +21,6 @@ typedef struct s_rules
 
 int		ft_isdigit(int c);
 long	ft_atol_positive(const char *s, int *ok);
-int		parse_args(int ac, char **av);
 int		parse_rules(t_rules *rules, int ac, char **av);
 
 #endif
