@@ -1,0 +1,69 @@
+#include "philo.h"
+
+static void	*philo_routine(void *arg)
+{
+	t_thread_arg	*a;
+
+	a = (t_thread_arg *)arg;
+	printf("Philo thread id %d of %d philos.\n",
+		a->id, a->rules->n_philo);
+	return (NULL);
+}
+
+static void	join_philo_threads(pthread_t *threads, int count)
+{
+	int	i;
+
+	i = 0;
+	while (i < count)
+	{
+		pthread_join(threads[i], NULL);
+		i++;
+	}
+}
+
+static void	free_thread_data(pthread_t *threads, t_thread_arg *args)
+{
+	free(threads);
+	free(args);
+}
+
+static int	create_philo_threads(t_rules *rules, pthread_t *threads, t_thread_arg *args)
+{
+	int	i;
+
+	i = 0;
+	while (i < rules->n_philo)
+	{
+		args[i].id = i + 1;
+		args[i].rules = rules;
+		if (pthread_create(&threads[i], NULL, philo_routine, &args[i]) != 0)
+		{
+			join_philo_threads(threads, i);
+			return (0);
+		}
+		i++;
+	}
+	return (1);
+}
+
+int	start_thread_test(t_rules *rules)
+{
+	pthread_t	*threads;
+	t_thread_arg	*args;
+
+	threads = malloc(sizeof(pthread_t) * rules->n_philo);
+	if (!threads)
+		return (printf("malloc failed.\n"), 0);
+	args = malloc(sizeof(t_thread_arg) * rules->n_philo);
+	if (!args)
+		return (free(threads), printf("malloc failed.\n"), 0);
+	if (!create_philo_threads(rules, threads, args))
+	{
+		free_thread_data(threads, args);
+		return (printf("pthread_create failed.\n"), 0);
+	}
+	join_philo_threads(threads, rules->n_philo);
+	free_thread_data(threads, args);
+	return (1);
+}
