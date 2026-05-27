@@ -29,5 +29,6 @@ int		ft_isdigit(int c);
 long	ft_atol_positive(const char *s, int *ok);
 int		parse_rules(t_rules *rules, int ac, char **av);
 int		start_thread_test(t_rules *rules);
+long	now_ms(void);
 
 #endif

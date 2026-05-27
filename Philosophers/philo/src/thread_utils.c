@@ -5,8 +5,8 @@ static void	*philo_routine(void *arg)
 	t_thread_arg	*a;
 
 	a = (t_thread_arg *)arg;
-	printf("Philo thread id %d of %d philos.\n",
-		a->id, a->rules->n_philo);
+	printf("%ld Philo thread id %d of %d philos.\n",
+		now_ms(), a->id, a->rules->n_philo);
 	return (NULL);
 }
 
