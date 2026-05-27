@@ -6,7 +6,7 @@ static void	*philo_routine(void *arg)
 
 	a = (t_thread_arg *)arg;
 	printf("%ld Philo thread id %d of %d philos.\n",
-		now_ms(), a->id, a->rules->n_philo);
+		elapsed_ms(a->dinner), a->id, a->dinner->rules.n_philo);
 	return (NULL);
 }
 
@@ -28,16 +28,16 @@ static void	free_philo_data(pthread_t *threads, t_thread_arg *args)
 	free(args);
 }
 
-static int	create_philos(t_rules *rules,
+static int	create_philos(t_dinner *dinner,
 		pthread_t *threads, t_thread_arg *args)
 {
 	int	i;
 
 	i = 0;
-	while (i < rules->n_philo)
+	while (i < dinner->rules.n_philo)
 	{
 		args[i].id = i + 1;
-		args[i].rules = rules;
+		args[i].dinner = dinner;
 		if (pthread_create(&threads[i], NULL, philo_routine, &args[i]) != 0)
 		{
 			join_philos(threads, i);
@@ -48,23 +48,23 @@ static int	create_philos(t_rules *rules,
 	return (1);
 }
 
-int	start_thread_test(t_rules *rules)
+int	start_thread_test(t_dinner *dinner)
 {
 	pthread_t		*threads;
 	t_thread_arg	*args;
 
-	threads = malloc(sizeof(pthread_t) * rules->n_philo);
+	threads = malloc(sizeof(pthread_t) * dinner->rules.n_philo);
 	if (!threads)
 		return (printf("malloc failed.\n"), 0);
-	args = malloc(sizeof(t_thread_arg) * rules->n_philo);
+	args = malloc(sizeof(t_thread_arg) * dinner->rules.n_philo);
 	if (!args)
 		return (free(threads), printf("malloc failed.\n"), 0);
-	if (!create_philos(rules, threads, args))
+	if (!create_philos(dinner, threads, args))
 	{
 		free_philo_data(threads, args);
 		return (printf("pthread_create failed.\n"), 0);
 	}
-	join_philos(threads, rules->n_philo);
+	join_philos(threads, dinner->rules.n_philo);
 	free_philo_data(threads, args);
 	return (1);
 }

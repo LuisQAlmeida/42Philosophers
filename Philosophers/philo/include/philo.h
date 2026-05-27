@@ -19,16 +19,23 @@ typedef struct s_rules
 	int		has_must_eat;
 }	t_rules;
 
+typedef struct s_dinner
+{
+	t_rules	rules;
+	long	start_ms;
+}	t_dinner;
+
 typedef struct s_thread_arg
 {
-	int		id;
-	t_rules	*rules;
+	int			id;
+	t_dinner	*dinner;
 }	t_thread_arg;
 
 int		ft_isdigit(int c);
 long	ft_atol_positive(const char *s, int *ok);
 int		parse_rules(t_rules *rules, int ac, char **av);
-int		start_thread_test(t_rules *rules);
+int		start_thread_test(t_dinner *dinner);
 long	now_ms(void);
+long	elapsed_ms(t_dinner *dinner);
 
 #endif
