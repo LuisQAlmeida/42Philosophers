@@ -5,7 +5,8 @@ static void	*philo_routine(void *arg)
 	t_thread_arg	*a;
 
 	a = (t_thread_arg *)arg;
-	log_philo(a, "started");
+	if (!get_stop(a->dinner))
+		log_philo(a, "started");
 	return (NULL);
 }
 

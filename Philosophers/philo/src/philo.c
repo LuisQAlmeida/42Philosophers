@@ -1,5 +1,23 @@
 #include "philo.h"
 
+static int	init_dinner_mutexes(t_dinner *dinner)
+{
+	if (pthread_mutex_init(&dinner->print_mutex, NULL) != 0)
+		return (0);
+	if (pthread_mutex_init(&dinner->state_mutex, NULL) != 0)
+	{
+		pthread_mutex_destroy(&dinner->print_mutex);
+		return (0);
+	}
+	return (1);
+}
+
+static void	destroy_dinner_mutexes(t_dinner *dinner)
+{
+	pthread_mutex_destroy(&dinner->state_mutex);
+	pthread_mutex_destroy(&dinner->print_mutex);
+}
+
 int	main(int argc, char **argv)
 {
 	t_dinner	dinner;
@@ -12,10 +30,10 @@ int	main(int argc, char **argv)
 		return (1);
 	}
 	dinner.start_ms = now_ms();
-	if (pthread_mutex_init(&dinner.print_mutex, NULL) != 0)
-		return (printf("print mutex init failed.\n"), 1);
+	if (!init_dinner_mutexes(&dinner))
+		return (printf("mutex init failed.\n"), 1);
 	if (!start_thread_test(&dinner))
-		return (pthread_mutex_destroy(&dinner.print_mutex), 1);
-	pthread_mutex_destroy(&dinner.print_mutex);
+		return (destroy_dinner_mutexes(&dinner), 1);
+	destroy_dinner_mutexes(&dinner);
 	return (0);
 }

@@ -23,7 +23,9 @@ typedef struct s_dinner
 {
 	t_rules			rules;
 	long			start_ms;
+	int				stop;
 	pthread_mutex_t	print_mutex;
+	pthread_mutex_t	state_mutex;
 }	t_dinner;
 
 typedef struct s_thread_arg
@@ -39,5 +41,7 @@ int		start_thread_test(t_dinner *dinner);
 long	now_ms(void);
 long	elapsed_ms(t_dinner *dinner);
 void	log_philo(t_thread_arg *arg, const char *msg);
+void	set_stop(t_dinner *dinner, int value);
+int		get_stop(t_dinner *dinner);
 
 #endif
