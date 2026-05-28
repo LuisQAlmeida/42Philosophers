@@ -5,8 +5,7 @@ static void	*philo_routine(void *arg)
 	t_thread_arg	*a;
 
 	a = (t_thread_arg *)arg;
-	printf("%ld Philo thread id %d of %d philos.\n",
-		elapsed_ms(a->dinner), a->id, a->dinner->rules.n_philo);
+	log_philo(a, "started");
 	return (NULL);
 }
 
