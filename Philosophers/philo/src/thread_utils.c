@@ -2,45 +2,52 @@
 
 static void	*philo_routine(void *arg)
 {
-	t_thread_arg	*a;
+	t_philo	*philo;
 
-	a = (t_thread_arg *)arg;
-	if (!get_stop(a->dinner))
-		log_philo(a, "started");
+	philo = (t_philo *)arg;
+	if (!get_stop(philo->dinner))
+		log_philo(philo, "started");
 	return (NULL);
 }
 
-static void	join_philos(pthread_t *threads, int count)
+static void	join_philos(t_dinner *dinner, int count)
 {
 	int	i;
 
 	i = 0;
 	while (i < count)
 	{
-		pthread_join(threads[i], NULL);
+		pthread_join(dinner->philos[i].thread, NULL);
 		i++;
 	}
 }
 
-static void	free_philo_data(pthread_t *threads, t_thread_arg *args)
-{
-	free(threads);
-	free(args);
-}
-
-static int	create_philos(t_dinner *dinner,
-		pthread_t *threads, t_thread_arg *args)
+static void	init_philos(t_dinner *dinner)
 {
 	int	i;
 
 	i = 0;
 	while (i < dinner->rules.n_philo)
 	{
-		args[i].id = i + 1;
-		args[i].dinner = dinner;
-		if (pthread_create(&threads[i], NULL, philo_routine, &args[i]) != 0)
+		dinner->philos[i].id = i + 1;
+		dinner->philos[i].left_fork = i;
+		dinner->philos[i].right_fork = (i + 1) % dinner->rules.n_philo;
+		dinner->philos[i].dinner = dinner;
+		i++;
+	}
+}
+
+static int	create_philos(t_dinner *dinner)
+{
+	int	i;
+
+	i = 0;
+	while (i < dinner->rules.n_philo)
+	{
+		if (pthread_create(&dinner->philos[i].thread, NULL,
+				philo_routine, &dinner->philos[i]) != 0)
 		{
-			join_philos(threads, i);
+			join_philos(dinner, i);
 			return (0);
 		}
 		i++;
@@ -50,21 +57,19 @@ static int	create_philos(t_dinner *dinner,
 
 int	start_thread_test(t_dinner *dinner)
 {
-	pthread_t		*threads;
-	t_thread_arg	*args;
-
-	threads = malloc(sizeof(pthread_t) * dinner->rules.n_philo);
-	if (!threads)
+	dinner->philos = malloc(sizeof(t_philo) * dinner->rules.n_philo);
+	if (!dinner->philos)
 		return (printf("malloc failed.\n"), 0);
-	args = malloc(sizeof(t_thread_arg) * dinner->rules.n_philo);
-	if (!args)
-		return (free(threads), printf("malloc failed.\n"), 0);
-	if (!create_philos(dinner, threads, args))
+	memset(dinner->philos, 0, sizeof(t_philo) * dinner->rules.n_philo);
+	init_philos(dinner);
+	if (!create_philos(dinner))
 	{
-		free_philo_data(threads, args);
+		free(dinner->philos);
+		dinner->philos = NULL;
 		return (printf("pthread_create failed.\n"), 0);
 	}
-	join_philos(threads, dinner->rules.n_philo);
-	free_philo_data(threads, args);
+	join_philos(dinner, dinner->rules.n_philo);
+	free(dinner->philos);
+	dinner->philos = NULL;
 	return (1);
 }

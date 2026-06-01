@@ -19,6 +19,17 @@ typedef struct s_rules
 	int		has_must_eat;
 }	t_rules;
 
+typedef struct s_dinner	t_dinner;
+
+typedef struct s_philo
+{
+	int			id;
+	int			left_fork;
+	int			right_fork;
+	pthread_t	thread;
+	t_dinner	*dinner;
+}	t_philo;
+
 typedef struct s_dinner
 {
 	t_rules			rules;
@@ -26,13 +37,8 @@ typedef struct s_dinner
 	int				stop;
 	pthread_mutex_t	print_mutex;
 	pthread_mutex_t	state_mutex;
+	t_philo			*philos;
 }	t_dinner;
-
-typedef struct s_thread_arg
-{
-	int			id;
-	t_dinner	*dinner;
-}	t_thread_arg;
 
 int		ft_isdigit(int c);
 long	ft_atol_positive(const char *s, int *ok);
@@ -40,7 +46,7 @@ int		parse_rules(t_rules *rules, int ac, char **av);
 int		start_thread_test(t_dinner *dinner);
 long	now_ms(void);
 long	elapsed_ms(t_dinner *dinner);
-void	log_philo(t_thread_arg *arg, const char *msg);
+void	log_philo(t_philo *philo, const char *msg);
 void	set_stop(t_dinner *dinner, int value);
 int		get_stop(t_dinner *dinner);
 
