@@ -37,6 +37,7 @@ typedef struct s_dinner
 	int				stop;
 	pthread_mutex_t	print_mutex;
 	pthread_mutex_t	state_mutex;
+	pthread_mutex_t	*forks;
 	t_philo			*philos;
 }	t_dinner;
 
@@ -49,5 +50,7 @@ long	elapsed_ms(t_dinner *dinner);
 void	log_philo(t_philo *philo, const char *msg);
 void	set_stop(t_dinner *dinner, int value);
 int		get_stop(t_dinner *dinner);
+int		init_forks(t_dinner *dinner);
+void	destroy_forks(t_dinner *dinner, int count);
 
 #endif

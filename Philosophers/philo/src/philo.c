@@ -32,8 +32,18 @@ int	main(int argc, char **argv)
 	dinner.start_ms = now_ms();
 	if (!init_dinner_mutexes(&dinner))
 		return (printf("mutex init failed.\n"), 1);
+	if (!init_forks(&dinner))
+	{
+		destroy_dinner_mutexes(&dinner);
+		return (printf("fork init failed.\n"), 1);
+	}
 	if (!start_thread_test(&dinner))
-		return (destroy_dinner_mutexes(&dinner), 1);
+	{
+		destroy_forks(&dinner, dinner.rules.n_philo);
+		destroy_dinner_mutexes(&dinner);
+		return (1);
+	}
+	destroy_forks(&dinner, dinner.rules.n_philo);
 	destroy_dinner_mutexes(&dinner);
 	return (0);
 }
