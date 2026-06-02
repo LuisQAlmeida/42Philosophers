@@ -10,6 +10,8 @@ static void	*philo_routine(void *arg)
 		handle_single_philo(philo);
 		return (NULL);
 	}
+	if (philo->id % 2 == 0)
+		usleep(1000);
 	while (!get_stop(philo->dinner))
 	{
 		philo_eat(philo);
