@@ -7,9 +7,9 @@ static void	*philo_routine(void *arg)
 	philo = (t_philo *)arg;
 	if (!get_stop(philo->dinner))
 	{
-		log_philo(philo, "started");
-		take_forks(philo);
-		drop_forks(philo);
+		philo_eat(philo);
+		philo_sleep(philo);
+		philo_think(philo);
 	}
 	return (NULL);
 }

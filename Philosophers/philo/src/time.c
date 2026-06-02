@@ -5,10 +5,19 @@ long	now_ms(void)
 	struct timeval	tv;
 
 	gettimeofday(&tv, NULL);
-	return ((tv.tv_sec * 1000) + (tv.tv_usec / 1000));
+	return ((tv.tv_sec * 1000L) + (tv.tv_usec / 1000L));
 }
 
 long	elapsed_ms(t_dinner *dinner)
 {
 	return (now_ms() - dinner->start_ms);
+}
+
+void	smart_sleep(t_dinner *dinner, long duration_ms)
+{
+	long	end;
+
+	end = now_ms() + duration_ms;
+	while (now_ms() < end && !get_stop(dinner))
+		usleep(200);
 }

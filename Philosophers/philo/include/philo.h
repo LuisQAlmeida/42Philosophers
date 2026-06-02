@@ -43,16 +43,26 @@ typedef struct s_dinner
 
 int		ft_isdigit(int c);
 long	ft_atol_positive(const char *s, int *ok);
+
 int		parse_rules(t_rules *rules, int ac, char **av);
 int		start_thread_test(t_dinner *dinner);
+
 long	now_ms(void);
 long	elapsed_ms(t_dinner *dinner);
+void	smart_sleep(t_dinner *dinner, long duration_ms);
+
 void	log_philo(t_philo *philo, const char *msg);
+
 void	set_stop(t_dinner *dinner, int value);
 int		get_stop(t_dinner *dinner);
+
 int		init_forks(t_dinner *dinner);
 void	destroy_forks(t_dinner *dinner, int count);
 void	take_forks(t_philo *philo);
 void	drop_forks(t_philo *philo);
+
+void	philo_eat(t_philo *philo);
+void	philo_sleep(t_philo *philo);
+void	philo_think(t_philo *philo);
 
 #endif
