@@ -25,6 +25,26 @@ static void	destroy_dinner_mutexes(t_dinner *dinner)
 	pthread_mutex_destroy(&dinner->print_mutex);
 }
 
+static int	start_dinner(t_dinner *dinner)
+{
+	if (!init_dinner_mutexes(dinner))
+		return (printf("mutex init failed.\n"), 1);
+	if (!init_forks(dinner))
+	{
+		destroy_dinner_mutexes(dinner);
+		return (printf("fork init failed.\n"), 1);
+	}
+	if (!start_thread_test(dinner))
+	{
+		destroy_forks(dinner, dinner->rules.n_philo);
+		destroy_dinner_mutexes(dinner);
+		return (1);
+	}
+	destroy_forks(dinner, dinner->rules.n_philo);
+	destroy_dinner_mutexes(dinner);
+	return (0);
+}
+
 int	main(int argc, char **argv)
 {
 	t_dinner	dinner;
@@ -37,20 +57,5 @@ int	main(int argc, char **argv)
 		return (1);
 	}
 	dinner.start_ms = now_ms();
-	if (!init_dinner_mutexes(&dinner))
-		return (printf("mutex init failed.\n"), 1);
-	if (!init_forks(&dinner))
-	{
-		destroy_dinner_mutexes(&dinner);
-		return (printf("fork init failed.\n"), 1);
-	}
-	if (!start_thread_test(&dinner))
-	{
-		destroy_forks(&dinner, dinner.rules.n_philo);
-		destroy_dinner_mutexes(&dinner);
-		return (1);
-	}
-	destroy_forks(&dinner, dinner.rules.n_philo);
-	destroy_dinner_mutexes(&dinner);
-	return (0);
+	return (start_dinner(&dinner));
 }
