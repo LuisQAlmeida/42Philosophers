@@ -75,5 +75,6 @@ int		get_meals_eaten(t_philo *philo);
 
 void	monitor_dinner(t_dinner *dinner);
 int		is_philo_dead(t_philo *philo);
+int		enough_meals_eaten(t_dinner *dinner);
 
 #endif
