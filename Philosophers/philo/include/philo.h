@@ -46,6 +46,7 @@ typedef struct s_dinner
 
 int		ft_isdigit(int c);
 long	ft_atol_positive(const char *s, int *ok);
+int		ft_strcmp(const char *s1, const char *s2);
 
 int		parse_rules(t_rules *rules, int ac, char **av);
 int		start_thread_test(t_dinner *dinner);
@@ -71,5 +72,8 @@ void	philo_think(t_philo *philo);
 void	update_meal_state(t_philo *philo);
 long	get_last_meal(t_philo *philo);
 int		get_meals_eaten(t_philo *philo);
+
+void	monitor_dinner(t_dinner *dinner);
+int		is_philo_dead(t_philo *philo);
 
 #endif

@@ -5,7 +5,7 @@ static void	*philo_routine(void *arg)
 	t_philo	*philo;
 
 	philo = (t_philo *)arg;
-	if (!get_stop(philo->dinner))
+	while (!get_stop(philo->dinner))
 	{
 		philo_eat(philo);
 		philo_sleep(philo);
@@ -74,6 +74,7 @@ int	start_thread_test(t_dinner *dinner)
 		dinner->philos = NULL;
 		return (printf("pthread_create failed.\n"), 0);
 	}
+	monitor_dinner(dinner);
 	join_philos(dinner, dinner->rules.n_philo);
 	free(dinner->philos);
 	dinner->philos = NULL;
