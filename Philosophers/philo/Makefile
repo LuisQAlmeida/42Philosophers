@@ -8,7 +8,7 @@ NAME = philo
 
 SRC = src/philo.c src/utils.c src/thread_utils.c \
       src/parse.c src/time.c src/log.c src/state.c \
-      src/forks.c
+      src/forks.c src/fork_actions.c
 
 OBJ = $(SRC:.c=.o)
 	

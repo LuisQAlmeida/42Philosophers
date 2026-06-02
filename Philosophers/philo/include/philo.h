@@ -52,5 +52,7 @@ void	set_stop(t_dinner *dinner, int value);
 int		get_stop(t_dinner *dinner);
 int		init_forks(t_dinner *dinner);
 void	destroy_forks(t_dinner *dinner, int count);
+void	take_forks(t_philo *philo);
+void	drop_forks(t_philo *philo);
 
 #endif
