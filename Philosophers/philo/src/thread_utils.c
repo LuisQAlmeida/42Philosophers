@@ -5,6 +5,11 @@ static void	*philo_routine(void *arg)
 	t_philo	*philo;
 
 	philo = (t_philo *)arg;
+	if (philo->dinner->rules.n_philo == 1)
+	{
+		handle_single_philo(philo);
+		return (NULL);
+	}
 	while (!get_stop(philo->dinner))
 	{
 		philo_eat(philo);

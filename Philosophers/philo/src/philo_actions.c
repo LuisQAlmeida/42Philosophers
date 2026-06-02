@@ -19,3 +19,11 @@ void	philo_think(t_philo *philo)
 {
 	log_philo(philo, "is thinking");
 }
+
+void	handle_single_philo(t_philo *philo)
+{
+	pthread_mutex_lock(&philo->dinner->forks[philo->left_fork]);
+	log_philo(philo, "has taken a fork");
+	smart_sleep(philo->dinner, philo->dinner->rules.t_die);
+	pthread_mutex_unlock(&philo->dinner->forks[philo->left_fork]);
+}

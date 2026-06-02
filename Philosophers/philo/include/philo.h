@@ -68,6 +68,7 @@ void	drop_forks(t_philo *philo);
 void	philo_eat(t_philo *philo);
 void	philo_sleep(t_philo *philo);
 void	philo_think(t_philo *philo);
+void	handle_single_philo(t_philo *philo);
 
 void	update_meal_state(t_philo *philo);
 long	get_last_meal(t_philo *philo);
