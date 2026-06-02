@@ -9,11 +9,18 @@ static int	init_dinner_mutexes(t_dinner *dinner)
 		pthread_mutex_destroy(&dinner->print_mutex);
 		return (0);
 	}
+	if (pthread_mutex_init(&dinner->meal_mutex, NULL) != 0)
+	{
+		pthread_mutex_destroy(&dinner->state_mutex);
+		pthread_mutex_destroy(&dinner->print_mutex);
+		return (0);
+	}
 	return (1);
 }
 
 static void	destroy_dinner_mutexes(t_dinner *dinner)
 {
+	pthread_mutex_destroy(&dinner->meal_mutex);
 	pthread_mutex_destroy(&dinner->state_mutex);
 	pthread_mutex_destroy(&dinner->print_mutex);
 }

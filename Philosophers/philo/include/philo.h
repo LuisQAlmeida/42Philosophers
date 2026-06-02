@@ -26,6 +26,8 @@ typedef struct s_philo
 	int			id;
 	int			left_fork;
 	int			right_fork;
+	int			meals_eaten;
+	long		last_meal_ms;
 	pthread_t	thread;
 	t_dinner	*dinner;
 }	t_philo;
@@ -37,6 +39,7 @@ typedef struct s_dinner
 	int				stop;
 	pthread_mutex_t	print_mutex;
 	pthread_mutex_t	state_mutex;
+	pthread_mutex_t	meal_mutex;
 	pthread_mutex_t	*forks;
 	t_philo			*philos;
 }	t_dinner;
@@ -64,5 +67,9 @@ void	drop_forks(t_philo *philo);
 void	philo_eat(t_philo *philo);
 void	philo_sleep(t_philo *philo);
 void	philo_think(t_philo *philo);
+
+void	update_meal_state(t_philo *philo);
+long	get_last_meal(t_philo *philo);
+int		get_meals_eaten(t_philo *philo);
 
 #endif

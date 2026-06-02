@@ -3,6 +3,7 @@
 void	philo_eat(t_philo *philo)
 {
 	take_forks(philo);
+	update_meal_state(philo);
 	log_philo(philo, "is eating");
 	smart_sleep(philo->dinner, philo->dinner->rules.t_eat);
 	drop_forks(philo);

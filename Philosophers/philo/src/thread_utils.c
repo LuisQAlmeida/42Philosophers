@@ -36,6 +36,8 @@ static void	init_philos(t_dinner *dinner)
 		dinner->philos[i].id = i + 1;
 		dinner->philos[i].left_fork = i;
 		dinner->philos[i].right_fork = (i + 1) % dinner->rules.n_philo;
+		dinner->philos[i].meals_eaten = 0;
+		dinner->philos[i].last_meal_ms = dinner->start_ms;
 		dinner->philos[i].dinner = dinner;
 		i++;
 	}
