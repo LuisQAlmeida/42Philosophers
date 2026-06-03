@@ -60,6 +60,7 @@ static int	create_philos(t_dinner *dinner)
 		if (pthread_create(&dinner->philos[i].thread, NULL,
 				philo_routine, &dinner->philos[i]) != 0)
 		{
+			set_stop(dinner, 1);
 			join_philos(dinner, i);
 			return (0);
 		}
@@ -68,18 +69,18 @@ static int	create_philos(t_dinner *dinner)
 	return (1);
 }
 
-int	start_thread_test(t_dinner *dinner)
+int	start_simulation(t_dinner *dinner)
 {
 	dinner->philos = malloc(sizeof(t_philo) * dinner->rules.n_philo);
 	if (!dinner->philos)
-		return (printf("malloc failed.\n"), 0);
+		return (print_error("malloc failed.", 0));
 	memset(dinner->philos, 0, sizeof(t_philo) * dinner->rules.n_philo);
 	init_philos(dinner);
 	if (!create_philos(dinner))
 	{
 		free(dinner->philos);
 		dinner->philos = NULL;
-		return (printf("pthread_create failed.\n"), 0);
+		return (print_error("pthread_create failed.", 0));
 	}
 	monitor_dinner(dinner);
 	join_philos(dinner, dinner->rules.n_philo);

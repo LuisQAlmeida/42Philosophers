@@ -1,13 +1,13 @@
 #ifndef PHILO_H
 # define PHILO_H
 
-# include <string.h> //memset
-# include <stdio.h> //printf
-# include <stdlib.h> //malloc, free
-# include <unistd.h> //write, usleep
-# include <sys/time.h> //gettimeofday
-# include <pthread.h> /*p_thread_create, pthread_detach, pthread_join, pthread_mutex_init,
-			p_thread_mutex_destroy, pthread_mutex_lock, pthread_mutex_unlock*/
+# include <limits.h>
+# include <pthread.h>
+# include <stdio.h>
+# include <stdlib.h>
+# include <string.h>
+# include <sys/time.h>
+# include <unistd.h>
 
 typedef struct s_rules
 {
@@ -48,8 +48,11 @@ int		ft_isdigit(int c);
 long	ft_atol_positive(const char *s, int *ok);
 int		ft_strcmp(const char *s1, const char *s2);
 
+int		print_error(const char *msg, int value);
+int		print_usage(void);
+
 int		parse_rules(t_rules *rules, int ac, char **av);
-int		start_thread_test(t_dinner *dinner);
+int		start_simulation(t_dinner *dinner);
 
 long	now_ms(void);
 long	elapsed_ms(t_dinner *dinner);

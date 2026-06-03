@@ -6,7 +6,7 @@ CFLAGS = -Wall -Wextra -Werror -pthread -g
 
 NAME = philo
 
-SRC = src/philo.c src/utils.c src/thread_utils.c \
+SRC = src/philo.c src/utils.c src/messages.c src/thread_utils.c \
 	src/parse.c src/time.c src/log.c src/state.c \
 	src/forks.c src/fork_actions.c src/philo_actions.c \
 	src/meal_state.c src/monitor.c

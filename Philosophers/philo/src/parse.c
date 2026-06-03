@@ -1,4 +1,3 @@
-#include <limits.h>
 #include "philo.h"
 
 static int	set_long(long *dst, const char *src)

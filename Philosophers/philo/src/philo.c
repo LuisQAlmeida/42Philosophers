@@ -28,13 +28,13 @@ static void	destroy_dinner_mutexes(t_dinner *dinner)
 static int	start_dinner(t_dinner *dinner)
 {
 	if (!init_dinner_mutexes(dinner))
-		return (printf("mutex init failed.\n"), 1);
+		return (print_error("mutex init failed.", 1));
 	if (!init_forks(dinner))
 	{
 		destroy_dinner_mutexes(dinner);
-		return (printf("fork init failed.\n"), 1);
+		return (print_error("fork init failed.", 1));
 	}
-	if (!start_thread_test(dinner))
+	if (!start_simulation(dinner))
 	{
 		destroy_forks(dinner, dinner->rules.n_philo);
 		destroy_dinner_mutexes(dinner);
@@ -51,11 +51,7 @@ int	main(int argc, char **argv)
 
 	memset(&dinner, 0, sizeof(dinner));
 	if (!parse_rules(&dinner.rules, argc, argv))
-	{
-		printf("Invalid arguments.\n");
-		printf("Usage: ./philo n_philo t_die t_eat t_sleep [must_eat]\n");
-		return (1);
-	}
+		return (print_usage());
 	dinner.start_ms = now_ms();
 	return (start_dinner(&dinner));
 }
