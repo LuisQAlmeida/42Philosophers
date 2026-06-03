@@ -1,26 +1,32 @@
 # **************************************************************************** #
-# ****************************** VARIABLES: ********************************** #
+#                                   philo                                      #
 # **************************************************************************** #
+
+# ***** Variables: *********************************************************** #
 CC = cc
 CFLAGS = -Wall -Wextra -Werror -pthread -g
 
 NAME = philo
 
-SRC = src/philo.c src/utils.c src/messages.c src/thread_utils.c \
-	src/parse.c src/time.c src/log.c src/state.c \
-	src/forks.c src/fork_actions.c src/philo_actions.c \
-	src/meal_state.c src/monitor.c
+SRC_DIR = src/
+INC_DIR = include
+
+INCLUDE = -I$(INC_DIR)
+
+CORE_FILES = main.c parse.c simulation.c
+PHILO_FILES = actions.c meal_state.c monitor.c
+SYNC_FILES = forks.c fork_actions.c state.c
+UTILS_FILES = time.c log.c messages.c utils.c
+
+SRC_FILES = $(CORE_FILES) $(PHILO_FILES) $(SYNC_FILES) $(UTILS_FILES)
+SRC = $(addprefix $(SRC_DIR), $(SRC_FILES))
 
 OBJ = $(SRC:.c=.o)
-	
-INCLUDE = -Iinclude
 
-# **************************************************************************** #
-# ****************************** RULES: ************************************** #
-# **************************************************************************** #
+# ***** Rules: *************************************************************** #
 all: $(NAME)
 
-$(NAME): $(OBJ)	
+$(NAME): $(OBJ)
 	$(CC) $(CFLAGS) $(OBJ) -o $(NAME)
 
 %.o: %.c
