@@ -16,8 +16,17 @@ long	elapsed_ms(t_dinner *dinner)
 void	smart_sleep(t_dinner *dinner, long duration_ms)
 {
 	long	end;
+	long	remaining;
 
 	end = now_ms() + duration_ms;
-	while (now_ms() < end && !get_stop(dinner))
-		usleep(200);
+	while (!get_stop(dinner))
+	{
+		remaining = end - now_ms();
+		if (remaining <= 0)
+			break ;
+		if (remaining > 1)
+			usleep(200);
+		else
+			usleep(100);
+	}
 }

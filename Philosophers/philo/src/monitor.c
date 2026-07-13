@@ -57,6 +57,6 @@ void	monitor_dinner(t_dinner *dinner)
 			set_stop(dinner, 1);
 			return ;
 		}
-		usleep(500);
+		usleep(200);
 	}
 }

@@ -15,11 +15,19 @@ static int	init_dinner_mutexes(t_dinner *dinner)
 		pthread_mutex_destroy(&dinner->print_mutex);
 		return (0);
 	}
+	if (pthread_mutex_init(&dinner->start_mutex, NULL) != 0)
+	{
+		pthread_mutex_destroy(&dinner->meal_mutex);
+		pthread_mutex_destroy(&dinner->state_mutex);
+		pthread_mutex_destroy(&dinner->print_mutex);
+		return (0);
+	}
 	return (1);
 }
 
 static void	destroy_dinner_mutexes(t_dinner *dinner)
 {
+	pthread_mutex_destroy(&dinner->start_mutex);
 	pthread_mutex_destroy(&dinner->meal_mutex);
 	pthread_mutex_destroy(&dinner->state_mutex);
 	pthread_mutex_destroy(&dinner->print_mutex);
@@ -52,6 +60,5 @@ int	main(int argc, char **argv)
 	memset(&dinner, 0, sizeof(dinner));
 	if (!parse_rules(&dinner.rules, argc, argv))
 		return (print_usage());
-	dinner.start_ms = now_ms();
 	return (start_dinner(&dinner));
 }

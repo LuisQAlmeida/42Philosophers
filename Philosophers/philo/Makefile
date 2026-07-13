@@ -6,7 +6,7 @@
 #                                   Variables                                  #
 # **************************************************************************** #
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -pthread -g
+CFLAGS = -Wall -Wextra -Werror -pthread
 
 NAME = philo
 
@@ -17,7 +17,7 @@ INCLUDE = -I$(INC_DIR)
 
 CORE_FILES = main.c parse.c simulation.c
 PHILO_FILES = actions.c meal_state.c monitor.c
-SYNC_FILES = forks.c state.c
+SYNC_FILES = forks.c state.c start_sync.c
 UTILS_FILES = time.c log.c messages.c utils.c
 
 SRC_FILES = $(CORE_FILES) $(PHILO_FILES) $(SYNC_FILES) $(UTILS_FILES)
