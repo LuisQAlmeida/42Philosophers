@@ -201,6 +201,13 @@ implementation remained byte-for-byte unchanged.
 Detailed scenarios, tool scope and interpretation are recorded in
 [`docs/testing.md`](docs/testing.md).
 
+The repository also includes a lightweight automated regression suite:
+
+    ./tests/regression.py
+
+GitHub Actions runs the reference build, no-relink check, regression suite and
+a separate Clang compiler-diversity build on maintained integration changes.
+
 ## Repository structure
 
     .

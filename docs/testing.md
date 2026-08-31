@@ -258,6 +258,98 @@ Recorded result:
 
 The reference build and no-relink check were then repeated successfully.
 
+## Repository-owned regression suite
+
+A lightweight regression runner is maintained at:
+
+    tests/regression.py
+
+Run it from the repository root after building the mandatory executable:
+
+    cd Philosophers/philo
+    make
+    cd ../..
+    ./tests/regression.py
+
+The suite uses only the Python standard library.
+
+Its maintained CI-oriented cases cover:
+
+- missing command-line arguments;
+- non-numeric input;
+- zero philosophers;
+- single-philosopher starvation;
+- an expected multi-philosopher death;
+- the `4 410 200 200` bounded survival scenario;
+- the `5 800 200 200` bounded survival scenario;
+- meal-limited termination with `5 800 200 200 3`.
+
+The historical `5 610 200 200 10` scenario remains available as an optional
+extended regression:
+
+    ./tests/regression.py --extended
+
+It is intentionally kept outside the mandatory hosted-CI gate because its
+narrow timing margin makes it more sensitive to scheduler variability on shared
+runners.
+
+Runtime output is checked for valid event structure and philosopher IDs.
+
+Death scenarios require exactly one death line and no subsequent event output.
+The death timestamp must not precede `time_to_die`, but the CI suite deliberately
+avoids scheduler-fragile exact-millisecond upper bounds.
+
+Survival scenarios use bounded external observation windows. Reaching that
+timeout without a death is the expected successful result.
+
+The runner returns a non-zero exit status whenever any maintained regression
+case fails.
+
+It also accepts an alternate executable path:
+
+    ./tests/regression.py --binary /path/to/philo
+
+This makes the runner reusable and allows its failure contract to be tested
+without modifying the suite itself.
+
+## Continuous integration
+
+The workflow at:
+
+    .github/workflows/ci.yml
+
+runs for pull requests targeting `main` and pushes to `main`.
+
+It exposes two focused jobs.
+
+### `CI / build`
+
+The build job:
+
+- performs the reference Makefile build through `CC = cc`;
+- verifies that the executable is produced;
+- verifies that a repeated `make` does not relink an already-current binary;
+- runs the repository-owned regression suite.
+
+### `CI / quality`
+
+The quality job builds the same maintained source with:
+
+    make CC=clang
+
+This provides compiler diversity without changing the Makefile's historical
+compiler-neutral interface.
+
+The hosted CI intentionally remains a fast regression gate.
+
+The deeper validation recorded elsewhere in this document, including Helgrind,
+DRD, Memcheck, UBSan, static analyzers and the larger repeated runtime matrices,
+remains local evidence rather than mandatory hosted-CI work.
+
+Passing CI is therefore evidence that the selected maintained gates succeed on
+the hosted runner. It is not a formal proof of correctness for every possible
+thread scheduling interleaving.
+
 ## Representative manual commands
 
 Build:
