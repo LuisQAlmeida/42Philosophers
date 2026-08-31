@@ -18,7 +18,8 @@ int	init_forks(t_dinner *dinner)
 {
 	int	i;
 
-	dinner->forks = malloc(sizeof(pthread_mutex_t) * dinner->rules.n_philo);
+	dinner->forks = malloc(sizeof(pthread_mutex_t)
+			* (size_t)dinner->rules.n_philo);
 	if (!dinner->forks)
 		return (0);
 	i = 0;

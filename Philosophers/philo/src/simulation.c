@@ -74,10 +74,13 @@ static int	create_philos(t_dinner *dinner)
 
 int	start_simulation(t_dinner *dinner)
 {
-	dinner->philos = malloc(sizeof(t_philo) * dinner->rules.n_philo);
+	size_t	bytes;
+
+	bytes = sizeof(t_philo) * (size_t)dinner->rules.n_philo;
+	dinner->philos = malloc(bytes);
 	if (!dinner->philos)
 		return (print_error("malloc failed.", 0));
-	memset(dinner->philos, 0, sizeof(t_philo) * dinner->rules.n_philo);
+	memset(dinner->philos, 0, bytes);
 	init_philos(dinner);
 	if (!create_philos(dinner))
 	{
