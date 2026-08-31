@@ -1,0 +1,66 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    name: build
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Reference build
+        working-directory: Philosophers/philo
+        run: |
+          make fclean
+          make
+          test -x ./philo
+
+      - name: Verify repeated make does not relink
+        working-directory: Philosophers/philo
+        run: |
+          before=$(stat -c '%Y' ./philo)
+          sleep 1
+          make
+          after=$(stat -c '%Y' ./philo)
+          test "$before" = "$after"
+
+      - name: Run regression suite
+        run: ./tests/regression.py
+
+  quality:
+    name: quality
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install Clang
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y clang
+
+      - name: Clang compiler-diversity build
+        working-directory: Philosophers/philo
+        run: |
+          make fclean
+          make CC=clang
+          test -x ./philo
