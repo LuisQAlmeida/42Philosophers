@@ -89,7 +89,7 @@ void	drop_forks(t_philo *philo);
 /* ************************************************************************** */
 
 void	update_meal_state(t_philo *philo);
-long	get_last_meal(t_philo *philo);
+int		stop_if_starved(t_philo *philo);
 int		get_meals_eaten(t_philo *philo);
 
 /* ************************************************************************** */

@@ -8,14 +8,19 @@ void	update_meal_state(t_philo *philo)
 	pthread_mutex_unlock(&philo->dinner->meal_mutex);
 }
 
-long	get_last_meal(t_philo *philo)
+int	stop_if_starved(t_philo *philo)
 {
-	long	value;
+	int		dead;
+	long	now;
 
 	pthread_mutex_lock(&philo->dinner->meal_mutex);
-	value = philo->last_meal_ms;
+	now = now_ms();
+	dead = (now - philo->last_meal_ms
+			>= philo->dinner->rules.t_die);
+	if (dead)
+		set_stop(philo->dinner, 1);
 	pthread_mutex_unlock(&philo->dinner->meal_mutex);
-	return (value);
+	return (dead);
 }
 
 int	get_meals_eaten(t_philo *philo)
