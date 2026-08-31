@@ -2,14 +2,7 @@
 
 int	is_philo_dead(t_philo *philo)
 {
-	long	last_meal;
-	long	now;
-
-	last_meal = get_last_meal(philo);
-	now = now_ms();
-	if (now - last_meal > philo->dinner->rules.t_die)
-		return (1);
-	return (0);
+	return (stop_if_starved(philo));
 }
 
 static int	check_deaths(t_dinner *dinner)
@@ -21,7 +14,6 @@ static int	check_deaths(t_dinner *dinner)
 	{
 		if (is_philo_dead(&dinner->philos[i]))
 		{
-			set_stop(dinner, 1);
 			log_philo(&dinner->philos[i], "died");
 			return (1);
 		}
