@@ -2,22 +2,23 @@
 
 static long	get_think_delay(t_philo *philo)
 {
-	long	delay;
-	long	min_cycle;
+	t_rules	*rules;
+	long	threshold;
+	long	sleep_half;
 
-	delay = 0;
-	if (philo->dinner->rules.n_philo % 2 == 0)
+	rules = &philo->dinner->rules;
+	if (rules->n_philo % 2 == 0)
 		return (0);
-	min_cycle = philo->dinner->rules.t_eat * 2;
-	min_cycle += philo->dinner->rules.t_sleep;
-	if (philo->dinner->rules.t_die <= min_cycle)
+	if (rules->t_die <= rules->t_sleep)
 		return (0);
-	delay = philo->dinner->rules.t_eat * 2;
-	delay -= philo->dinner->rules.t_sleep;
-	if (delay < 0)
-		delay = 0;
-	delay /= 2;
-	return (delay);
+	threshold = rules->t_die - rules->t_sleep;
+	threshold = threshold / 2 + threshold % 2;
+	if (rules->t_eat >= threshold)
+		return (0);
+	sleep_half = rules->t_sleep / 2 + rules->t_sleep % 2;
+	if (rules->t_eat <= sleep_half)
+		return (0);
+	return (rules->t_eat - sleep_half);
 }
 
 void	philo_eat(t_philo *philo)
