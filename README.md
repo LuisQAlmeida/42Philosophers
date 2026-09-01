@@ -208,6 +208,9 @@ The repository also includes a lightweight automated regression suite:
 GitHub Actions runs the reference build, no-relink check, regression suite and
 a separate Clang compiler-diversity build on maintained integration changes.
 
+Final portfolio readiness evidence is recorded in
+[`docs/final-portfolio-audit.md`](docs/final-portfolio-audit.md).
+
 ## Repository structure
 
     .
