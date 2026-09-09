@@ -1,5 +1,9 @@
 # Philosophers
 
+[![CI](https://github.com/LuisQAlmeida/42Philosophers/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/LuisQAlmeida/42Philosophers/actions/workflows/ci.yml)
+
+> Part of my [42 Common Core portfolio](https://github.com/LuisQAlmeida/42Portfolio).
+
 A multithreaded C implementation of the Dining Philosophers concurrency
 problem, developed as part of the 42 Common Core.
 
