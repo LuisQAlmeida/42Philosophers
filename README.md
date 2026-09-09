@@ -278,6 +278,82 @@ They are learning material rather than authoritative implementation
 documentation. The maintained technical documentation under [`docs/`](docs/)
 and the source code describe the current repository state.
 
+## Doxygen Documentation
+
+The maintained concurrency model and cross-module interface are documented
+from:
+
+- `Philosophers/philo/include/philo.h`.
+
+Documentation is concentrated in the maintained header rather than duplicated
+across implementation files.
+
+The generated documentation focuses on:
+
+- simulation configuration through `t_rules`;
+- per-worker state through `t_philo`;
+- shared ownership and lifecycle through `t_dinner`;
+- fork ownership;
+- coordinated thread startup;
+- meal-state synchronization;
+- starvation-decision synchronization;
+- global termination state;
+- serialized event output;
+- stop-aware timing.
+
+The synchronization responsibilities recorded in the data model include:
+
+| Synchronization primitive | Responsibility |
+|---|---|
+| `forks[i]` | exclusive ownership of fork `i` |
+| `start_mutex` | `ready_count` and `start` |
+| `meal_mutex` | `last_meal_ms`, `meals_eaten`, and the starvation read-and-decide interval |
+| `state_mutex` | global `stop` |
+| `print_mutex` | serialized event output |
+
+The documentation also records meaningful nested locking relationships such as
+`meal_mutex -> state_mutex` during starvation detection and
+`print_mutex -> state_mutex` during event logging.
+
+These relationships describe the maintained implementation. They are not
+presented as formal guarantees of scheduler fairness or starvation freedom for
+every possible thread interleaving.
+
+The repository tracks a canonical `Doxyfile`.
+
+Install Doxygen on Ubuntu if required:
+
+```sh
+sudo apt install doxygen
+```
+
+Generate the documentation from the repository root:
+
+```sh
+doxygen Doxyfile
+```
+
+Generated HTML is written to:
+
+```text
+docs/html/
+```
+
+The documentation entry point is:
+
+```text
+docs/html/index.html
+```
+
+Only the generated `docs/html/` tree is ignored by Git. The existing
+repository-owned Markdown documentation under `docs/` remains tracked.
+
+Doxygen warnings are treated as validation failures. A dedicated CI job
+generates the documentation, verifies representative concurrency-model
+entities, removes generated output, and checks repository cleanliness.
+
+---
+
 ## License
 
 This repository is distributed under the terms of the

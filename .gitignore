@@ -30,3 +30,6 @@ Thumbs.db
 vgcore.*
 core
 core.*
+
+# Doxygen generated documentation
+/docs/html/
