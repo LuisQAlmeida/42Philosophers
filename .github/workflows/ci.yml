@@ -64,3 +64,75 @@ jobs:
           make fclean
           make CC=clang
           test -x ./philo
+
+  documentation:
+    name: documentation
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install documentation dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y doxygen
+
+      - name: Validate concurrency documentation
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          rm -rf docs/html
+
+          doxygen Doxyfile
+
+          test -f docs/html/index.html
+
+          for symbol in \
+            t_rules \
+            t_philo \
+            t_dinner \
+            meal_mutex \
+            state_mutex \
+            start_mutex \
+            print_mutex \
+            forks \
+            stop_if_starved \
+            release_start \
+            set_stop \
+            get_stop
+          do
+            if ! grep -RFl "$symbol" docs/html >/dev/null 2>&1; then
+              echo "Generated documentation is missing: $symbol"
+              exit 1
+            fi
+          done
+
+          rm -rf docs/html
+
+          test ! -e docs/html
+
+      - name: Verify repository cleanliness
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          status_output="$(git status --porcelain --untracked-files=all)"
+
+          if [ -n "$status_output" ]; then
+              echo "ERROR: documentation validation modified the repository:"
+              printf '%s\n' "$status_output"
+              exit 1
+          fi
+
+          ignored_output="$(git clean -ndX)"
+
+          if [ -n "$ignored_output" ]; then
+              echo "ERROR: ignored generated files remain:"
+              printf '%s\n' "$ignored_output"
+              exit 1
+          fi
+
+          echo "PASS: repository remains clean"
