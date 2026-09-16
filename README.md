@@ -4,19 +4,29 @@
 
 > Part of my [42 Common Core portfolio](https://github.com/LuisQAlmeida/42Portfolio).
 
-A multithreaded C implementation of the Dining Philosophers concurrency
-problem, developed as part of the 42 Common Core.
+A concurrent C implementation of the Dining Philosophers problem using POSIX threads and mutexes, focused on synchronization, timing and race-free coordination of shared state.
 
-The project models each philosopher as an independent POSIX thread competing
-for shared forks represented by mutexes. The implementation focuses on resource
-ownership, synchronization, timing, starvation detection and coordinated
-shutdown.
+> **42 Common Core:** 100/100 · Subject v13.0 · [Academic record & evaluation](docs/academic/README.md)
 
-This repository also preserves the original completed project state before
-later portfolio maintenance through the annotated historical tag
-[`portfolio-baseline-2026-08`](https://github.com/LuisQAlmeida/42Philosophers/tree/portfolio-baseline-2026-08).
+## Table of Contents
 
-## What the project demonstrates
+- [Overview](#overview)
+- [Architecture at a glance](#architecture-at-a-glance)
+- [Synchronization model](#synchronization-model)
+- [Build](#build)
+- [Usage](#usage)
+- [Monitoring and termination](#monitoring-and-termination)
+- [Timing strategy](#timing-strategy)
+- [Validation](#validation)
+- [Repository structure](#repository-structure)
+- [Historical baseline and maintained state](#historical-baseline-and-maintained-state)
+- [Scope](#scope)
+- [Learning material](#learning-material)
+- [Doxygen Documentation](#doxygen-documentation)
+- [AI Usage](#ai-usage)
+- [License](#license)
+
+## Overview
 
 The maintained mandatory implementation exercises:
 
@@ -360,6 +370,49 @@ generates the documentation, verifies representative concurrency-model
 entities, removes generated output, and checks repository cleanliness.
 
 ---
+
+## AI Usage
+
+### Academic development
+
+The academic implementation was developed as my project work. ChatGPT was used
+as a learning, reasoning and debugging aid during parts of the development
+process.
+
+AI-assisted support included:
+
+- understanding POSIX threads, mutexes and shared-state synchronization;
+- reasoning about data races and deadlock risks;
+- interpreting and designing test scenarios;
+- reasoning about expected death and survival behaviour;
+- debugging timing-sensitive behaviour;
+- reasoning about coordinated thread startup;
+- reviewing monitoring and termination logic;
+- explaining complex implementation paths while preparing to explain and
+  defend the project.
+
+AI assistance supplemented rather than replaced my implementation work. I
+remained responsible for understanding the program, making implementation
+decisions, testing its behaviour and presenting the project for evaluation.
+
+### Portfolio modernization
+
+AI assistance was broader during the later portfolio-modernization work.
+
+It was used to support:
+
+- repository and code audits;
+- concurrency reasoning and hardening review;
+- regression-test strategy and runner review;
+- CI configuration and validation;
+- Doxygen and technical-documentation review;
+- repository restructuring and hygiene;
+- academic-provenance documentation;
+- README organization and portfolio consistency.
+
+The resulting changes were reviewed and validated against the maintained
+repository. Engineering decisions, acceptance of changes and final repository
+ownership remain my responsibility.
 
 ## License
 
