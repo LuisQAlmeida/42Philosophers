@@ -212,9 +212,6 @@ The repository also includes a lightweight automated regression suite:
 GitHub Actions runs the reference build, no-relink check, regression suite and
 a separate Clang compiler-diversity build on maintained integration changes.
 
-Final portfolio readiness evidence is recorded in
-[`docs/final-portfolio-audit.md`](docs/final-portfolio-audit.md).
-
 ## Repository structure
 
     .
@@ -222,19 +219,17 @@ Final portfolio readiness evidence is recorded in
     |   `-- workflows/
     |-- docs/
     |   |-- architecture.md
-    |   |-- final-portfolio-audit.md
     |   |-- synchronization.md
     |   `-- testing.md
     |-- include/
     |   `-- philo.h
-    |-- resources/
-    |   `-- tutorials/
     |-- src/
     |-- tests/
     |   `-- regression.py
+    |-- .gitignore
     |-- Doxyfile
-    |-- Makefile
     |-- LICENSE
+    |-- Makefile
     `-- README.md
 
 ## Historical baseline and maintained state
@@ -276,12 +271,19 @@ documentation.
 
 ## Learning material
 
-Development-era tutorial references and personal study notes are retained under
-[`resources/tutorials/`](resources/tutorials/).
+Two development-era tutorials were useful while learning the pthread concepts
+behind the project:
 
-They are learning material rather than authoritative implementation
-documentation. The maintained technical documentation under [`docs/`](docs/)
-and the source code describe the current repository state.
+- [Introduction To Threads (pthreads) | C Programming Tutorial](https://www.youtube.com/watch?v=ldJ8WGZVXZk),
+  by Portfolio Courses, provides an introduction to POSIX thread creation,
+  joining and argument passing.
+- [Detached Threads (pthreads) | C Programming Tutorial](https://www.youtube.com/watch?v=p142bNjIsms),
+  by Portfolio Courses, compares joinable and detached pthreads. The maintained
+  Philosophers implementation uses joinable philosopher threads and does not
+  use `pthread_detach`.
+
+These are learning references rather than authoritative documentation for the
+maintained implementation.
 
 ## Doxygen Documentation
 
