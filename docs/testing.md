@@ -137,6 +137,18 @@ starvation-decision correction executed 89 targeted scenarios with:
 The later 63-case regression is the relevant runtime matrix after the final
 runtime-changing arithmetic maintenance.
 
+### Higher-thread-count smoke validation
+
+A bounded maintained-state run using 50 philosophers completed successfully:
+
+    exit status:   0
+    death lines:   0
+    invalid lines: 0
+    output lines:  424
+
+This is a representative concurrency smoke check rather than a scalability or
+starvation-freedom guarantee.
+
 ## Historical regression scenario
 
 Earlier testing had identified:
@@ -194,7 +206,7 @@ After the implementation-quality maintenance:
     errors:   0
     result:   PASS
 
-### GCC analyzer
+### GCC `-fanalyzer`
 
 Recorded result:
 
@@ -309,6 +321,11 @@ It also accepts an alternate executable path:
 
 This makes the runner reusable and allows its failure contract to be tested
 without modifying the suite itself.
+
+As a negative control, the runner was executed against `/bin/true` and
+correctly rejected the deliberately incorrect executable. This confirms that
+failed expectations propagate as suite failure rather than being reported as
+success.
 
 ## Continuous integration
 
