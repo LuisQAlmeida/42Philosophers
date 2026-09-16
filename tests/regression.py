@@ -14,7 +14,7 @@ from typing import Sequence
 
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
-DEFAULT_BINARY = REPO_ROOT / "Philosophers" / "philo" / "philo"
+DEFAULT_BINARY = REPO_ROOT / "philo"
 
 EVENT_RE = re.compile(
     r"^(?P<ms>\d+)\s+(?P<id>\d+)\s+(?P<state>.+)$"

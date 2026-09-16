@@ -30,8 +30,9 @@ The maintained mandatory implementation exercises:
 - timing-sensitive concurrent behaviour;
 - explicit resource cleanup.
 
-The maintained implementation is located in
-[`Philosophers/philo/`](Philosophers/philo/).
+The maintained implementation lives directly at the repository root,
+with source files under [`src/`](src/) and the public header under
+[`include/`](include/).
 
 ## Architecture at a glance
 
@@ -100,9 +101,8 @@ The complete locking model is documented in
 
 ## Build
 
-From the mandatory implementation directory:
+From the repository root:
 
-    cd Philosophers/philo
     make
 
 The Makefile builds with:
@@ -218,21 +218,22 @@ Final portfolio readiness evidence is recorded in
 ## Repository structure
 
     .
-    |-- Philosophers/
-    |   |-- README.md
-    |   `-- philo/
-    |       |-- Makefile
-    |       |-- include/
-    |       `-- src/
+    |-- .github/
+    |   `-- workflows/
     |-- docs/
     |   |-- architecture.md
+    |   |-- final-portfolio-audit.md
     |   |-- synchronization.md
     |   `-- testing.md
+    |-- include/
+    |   `-- philo.h
     |-- resources/
     |   `-- tutorials/
-    |       |-- tutorial_links.md
-    |       `-- notes/
-    |-- .gitignore
+    |-- src/
+    |-- tests/
+    |   `-- regression.py
+    |-- Doxyfile
+    |-- Makefile
     |-- LICENSE
     `-- README.md
 
@@ -287,7 +288,7 @@ and the source code describe the current repository state.
 The maintained concurrency model and cross-module interface are documented
 from:
 
-- `Philosophers/philo/include/philo.h`.
+- `include/philo.h`.
 
 Documentation is concentrated in the maintained header rather than duplicated
 across implementation files.
