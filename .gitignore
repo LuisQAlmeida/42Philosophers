@@ -20,7 +20,7 @@ Thumbs.db
 *.so
 *.so.*
 *.out
-/Philosophers/philo/philo
+/philo
 
 # Diagnostics and temporary files
 *.log

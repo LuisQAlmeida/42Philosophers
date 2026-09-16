@@ -266,9 +266,7 @@ A lightweight regression runner is maintained at:
 
 Run it from the repository root after building the mandatory executable:
 
-    cd Philosophers/philo
     make
-    cd ../..
     ./tests/regression.py
 
 The suite uses only the Python standard library.
@@ -354,7 +352,6 @@ thread scheduling interleaving.
 
 Build:
 
-    cd Philosophers/philo
     make
 
 Invalid CLI:

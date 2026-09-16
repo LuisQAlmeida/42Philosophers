@@ -26,14 +26,12 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Reference build
-        working-directory: Philosophers/philo
         run: |
           make fclean
           make
           test -x ./philo
 
       - name: Verify repeated make does not relink
-        working-directory: Philosophers/philo
         run: |
           before=$(stat -c '%Y' ./philo)
           sleep 1
@@ -59,7 +57,6 @@ jobs:
           sudo apt-get install -y clang
 
       - name: Clang compiler-diversity build
-        working-directory: Philosophers/philo
         run: |
           make fclean
           make CC=clang
